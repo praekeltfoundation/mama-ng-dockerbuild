@@ -1,0 +1,17 @@
+{
+  "dependencies": {
+    "crypto": "*",
+    "go-jsbox-location": "^0.2.0",
+    "go-jsbox-ona": "^0.1.0",
+    "go-jsbox-metrics-helper": "^0.1.0",
+    "go-jsbox-xform": "^0.0.1",
+    "jed": "~0.5.4",
+    "lodash": "~2.4.1",
+    "moment": "~2.6",
+    "q": "~0.9.7",
+    "querystring": "*",
+    "url": "*",
+    "vumigo_v01": "~0.1.22",
+    "vumigo_v02": "~0.2"
+  }
+}
