@@ -2,6 +2,7 @@
 
 BUILD_BASE="NO"
 BUILD_BUILDER="NO"
+BUILD_SCHEDULER="YES"
 TAG_LATEST="YES"
 TAG_PREFIX=""
 EXTRA_RUNARGS=""
@@ -17,6 +18,9 @@ while [[ $# > 0 ]]; do
             BUILD_BASE="YES"
             BUILD_BUILDER="YES"
             ;;
+        --no-scheduler)
+            BUILD_SCHEDULER="NO"
+            ;;
         --no-latest)
             TAG_LATEST="NO"
             ;;
@@ -31,6 +35,9 @@ while [[ $# > 0 ]]; do
             ;;
         --app-dir)
             APP_DIR="$1"; shift
+            ;;
+        --scheduler-dir)
+            SCHEDULER_DIR="$1"; shift
             ;;
         --tags-file)
             TAGS_FILE="$1"; shift
@@ -49,9 +56,10 @@ while [[ $# > 0 ]]; do
     esac
 done
 
-# Set APP_DIR and BUILD_REQUIREMENTS_DIR to default if not provided
+# Set APP_DIR, BUILD_REQUIREMENTS_DIR and SCHEDULER_DIR to default if not provided
 APP_DIR="${APP_DIR-$BASE_DIR/application}"
 BUILD_REQUIREMENTS_DIR="${BUILD_REQUIREMENTS_DIR-$BASE_DIR}"
+SCHEDULER_DIR="${SCHEDULER_DIR-$BASE_DIR/mama-ng-scheduler}"
 
 function writetag() {
     local tag="$1"; shift
@@ -63,10 +71,12 @@ function writetag() {
 
 function mkimage() {
     local name="$1"; shift
-    local dir="$BASE_DIR/${1-docker}"; shift || true
+    local dir="${1-$BASE_DIR/docker}"; shift || true
+    local dockerfile="$dir/${1-$name.dockerfile}"; shift || true
 
     local versiontag="$TAG_PREFIX$name:$VERSION_TAG"
-    docker build --pull=false -t $versiontag -f $dir/$name.dockerfile $dir
+    echo "docker build --pull=false -t $versiontag -f $dockerfile $dir"
+    docker build --pull=false -t $versiontag -f $dockerfile $dir
     writetag $versiontag
     if [ "$TAG_LATEST" = "YES" ]; then
         local latesttag="$TAG_PREFIX$name:latest"
@@ -122,6 +132,10 @@ mkimage vumi
 mkimage vxfreeswitch
 
 echo "Building app images..."
-# TODO
+if [ "$BUILD_SCHEDULER" = "YES" ]; then
+    echo "Building scheduler image..."
+    mkimage mama-ng-scheduler $SCHEDULER_DIR Dockerfile
+fi
+# TODO: mama-ng-control, mama-ng-contentstore
 
 echo "Done."
