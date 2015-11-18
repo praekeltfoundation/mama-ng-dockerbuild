@@ -108,12 +108,12 @@ function buildapp() {
 
 if [ "$BUILD_BASE" = "YES" ]; then
     echo "Building base image..."
-    mkimage mama-ng-base docker-base
+    mkimage mama-ng-base $BASE_DIR/docker-base
 fi
 
 if [ "$BUILD_BUILDER" = "YES" ]; then
     echo "Building builder image..."
-    mkimage mama-ng-builder docker-base
+    mkimage mama-ng-builder $BASE_DIR/docker-base
 fi
 
 # Build app in builder image
