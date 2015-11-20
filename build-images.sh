@@ -33,8 +33,11 @@ while [[ $# > 0 ]]; do
         --build-requirements-dir)
             BUILD_REQUIREMENTS_DIR="$1"; shift
             ;;
-        --app-dir)
-            APP_DIR="$1"; shift
+        --control-dir)
+            CONTROL_DIR="$1"; shift
+            ;;
+        --contentstore-dir)
+            CONTENTSTORE_DIR="$1"; shift
             ;;
         --scheduler-dir)
             SCHEDULER_DIR="$1"; shift
@@ -56,9 +59,10 @@ while [[ $# > 0 ]]; do
     esac
 done
 
-# Set APP_DIR, BUILD_REQUIREMENTS_DIR and SCHEDULER_DIR to default if not provided
-APP_DIR="${APP_DIR-$BASE_DIR/application}"
+# Set BUILD_REQUIREMENTS_DIR and app directories to default if not provided
 BUILD_REQUIREMENTS_DIR="${BUILD_REQUIREMENTS_DIR-$BASE_DIR}"
+CONTROL_DIR="${CONTROL_DIR-$BASE_DIR/mama-ng-control}"
+CONTENTSTORE_DIR="${CONTENTSTORE_DIR-$BASE_DIR/mama-ng-contentstore}"
 SCHEDULER_DIR="${SCHEDULER_DIR-$BASE_DIR/mama-ng-scheduler}"
 
 function writetag() {
@@ -102,7 +106,8 @@ function buildapp() {
     cp "$BUILD_REQUIREMENTS_DIR"/requirements.txt "$REQ_DIR"
     cp "$BUILD_REQUIREMENTS_DIR"/package.json "$REQ_DIR"
     runimage "$@" \
-             -v "$APP_DIR":/application \
+             -v "$CONTROL_DIR":/mama-ng-control \
+             -v "$CONTENTSTORE_DIR":/mama-ng-contentstore \
              -v "$BASE_DIR"/docker/build:/build
 }
 
@@ -132,10 +137,11 @@ mkimage vumi
 mkimage vxfreeswitch
 
 echo "Building app images..."
+mkimage mama-ng-control
+mkimage mama-ng-contentstore
 if [ "$BUILD_SCHEDULER" = "YES" ]; then
     echo "Building scheduler image..."
     mkimage mama-ng-scheduler $SCHEDULER_DIR Dockerfile
 fi
-# TODO: mama-ng-control, mama-ng-contentstore
 
 echo "Done."
