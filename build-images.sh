@@ -2,6 +2,10 @@
 
 BUILD_BASE="NO"
 BUILD_BUILDER="NO"
+BUILD_WHEELS="YES"
+BUILD_INFR="YES"
+BUILD_CONTROL="YES"
+BUILD_CONTENTSTORE="YES"
 BUILD_SCHEDULER="YES"
 TAG_LATEST="YES"
 TAG_PREFIX=""
@@ -17,6 +21,18 @@ while [[ $# > 0 ]]; do
         -a|--all)
             BUILD_BASE="YES"
             BUILD_BUILDER="YES"
+            ;;
+        --no-wheels)
+            BUILD_WHEELS="NO"
+            ;;
+        --no-infr)
+            BUILD_INFR="NO"
+            ;;
+        --no-control)
+            BUILD_CONTROL="NO"
+            ;;
+        --no-contentstore)
+            BUILD_CONTENTSTORE="NO"
             ;;
         --no-scheduler)
             BUILD_SCHEDULER="NO"
@@ -122,23 +138,33 @@ if [ "$BUILD_BUILDER" = "YES" ]; then
 fi
 
 # Build app in builder image
-echo "Building app in builder container..."
-buildapp mama-ng-builder
+if [ "$BUILD_WHEELS" = "YES" ]; then
+    echo "Building app in builder container..."
+    buildapp mama-ng-builder
+fi
 
 # Build run images
 echo "Building run image..."
 mkimage mama-ng-run
 
-echo "Building infr images..."
-mkimage go-metrics-api
-mkimage jssandbox
-mkimage vumi-http-api
-mkimage vumi
-mkimage vxfreeswitch
+if [ "$BUILD_INFR" = "YES" ]; then
+    echo "Building infr images..."
+    mkimage go-metrics-api
+    mkimage jssandbox
+    mkimage vumi-http-api
+    mkimage vumi
+    mkimage vxfreeswitch
+fi
 
-echo "Building app images..."
-mkimage mama-ng-control
-mkimage mama-ng-contentstore
+if [ "$BUILD_CONTROL" = "YES" ]; then
+    echo "Building mama-ng-control image..."
+    mkimage mama-ng-control
+fi
+if [ "$BUILD_CONTENTSTORE" = "YES" ]; then
+    echo "Building mama-ng-contentstore image..."
+    mkimage mama-ng-contentstore
+fi
+
 if [ "$BUILD_SCHEDULER" = "YES" ]; then
     echo "Building scheduler image..."
     mkimage mama-ng-scheduler $SCHEDULER_DIR Dockerfile
