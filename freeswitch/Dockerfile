@@ -15,6 +15,7 @@ RUN apt-get update \
 
 # Copy basic configuration files
 RUN cp -a /usr/share/freeswitch/conf/vanilla/. /etc/freeswitch/
+COPY config/ /etc/freeswitch/
 
 # Don't expose any ports - use host networking
 
