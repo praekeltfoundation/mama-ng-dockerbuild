@@ -7,6 +7,7 @@ BUILD_INFR="YES"
 BUILD_CONTROL="YES"
 BUILD_CONTENTSTORE="YES"
 BUILD_SCHEDULER="YES"
+BUILD_FREESWITCH="YES"
 TAG_LATEST="YES"
 TAG_PREFIX=""
 EXTRA_RUNARGS=""
@@ -36,6 +37,9 @@ while [[ $# > 0 ]]; do
             ;;
         --no-scheduler)
             BUILD_SCHEDULER="NO"
+            ;;
+        --no-freeswitch)
+            BUILD_FREESWITCH="NO"
             ;;
         --no-latest)
             TAG_LATEST="NO"
@@ -168,6 +172,11 @@ fi
 if [ "$BUILD_SCHEDULER" = "YES" ]; then
     echo "Building scheduler image..."
     mkimage mama-ng-scheduler $SCHEDULER_DIR Dockerfile
+fi
+
+if [ "$BUILD_FREESWITCH" = "YES" ]; then
+    echo "Building freeswitch image..."
+    mkimage freeswitch $BASE_DIR/freeswitch Dockerfile
 fi
 
 echo "Done."
