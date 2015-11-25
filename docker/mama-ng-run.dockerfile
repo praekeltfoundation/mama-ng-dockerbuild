@@ -1,7 +1,6 @@
 FROM mama-ng-base
 
 ENV PATH="/appenv/bin:$PATH"
-RUN . /appenv/bin/activate
 
 ADD build/wheelhouse /wheelhouse
 
