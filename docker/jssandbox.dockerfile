@@ -9,5 +9,4 @@ ENV NODE_PATH=/node_modules
 
 ADD build/node_modules /node_modules
 
-RUN . /appenv/bin/activate && \
-    $PIP_INSTALL vxsandbox
+RUN $PIP_INSTALL vxsandbox

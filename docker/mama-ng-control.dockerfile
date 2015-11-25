@@ -7,5 +7,4 @@ RUN apt-get update \
 
 ADD build/mama-ng-control-static /static
 
-RUN . /appenv/bin/activate && \
-    $PIP_INSTALL mama-ng-control
+RUN $PIP_INSTALL mama-ng-control
