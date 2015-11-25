@@ -1,5 +1,4 @@
 FROM mama-ng-run
 MAINTAINER Praekelt Foundation <dev@praekeltfoundation.org>
 
-RUN . /appenv/bin/activate && \
-    $PIP_INSTALL go-metrics-api
+RUN $PIP_INSTALL go-metrics-api

@@ -7,5 +7,4 @@ RUN apt-get update \
 
 ADD build/mama-ng-contentstore-static /static
 
-RUN . /appenv/bin/activate && \
-    $PIP_INSTALL mama-ng-contentstore
+RUN $PIP_INSTALL mama-ng-contentstore
