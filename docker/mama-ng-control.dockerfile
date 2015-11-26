@@ -5,6 +5,6 @@ RUN apt-get update \
     && $APT_GET_INSTALL libpq5 \
     && rm -rf /var/lib/apt/lists/*
 
-ADD build/mama-ng-control-static /static
+ADD build/mama-ng-control-static /app/static
 
 RUN $PIP_INSTALL mama-ng-control
