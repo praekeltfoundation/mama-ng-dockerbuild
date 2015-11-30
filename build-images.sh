@@ -99,7 +99,6 @@ function mkimage() {
     local dockerfile="$dir/${1-$name.dockerfile}"; shift || true
 
     local versiontag="$TAG_PREFIX$name:$VERSION_TAG"
-    echo "docker build --pull=false -t $versiontag -f $dockerfile $dir"
     docker build --pull=false -t $versiontag -f $dockerfile $dir
     writetag $versiontag
     if [ "$TAG_LATEST" = "YES" ]; then
