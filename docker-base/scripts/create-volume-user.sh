@@ -14,7 +14,7 @@ echo "Detected UID $VOL_UID and GID $VOL_GID for volume path $1"
 
 EXISTING_GROUP="$(getent group $VOL_GID | cut -d: -f1)"
 if [[ -z $EXISTING_GROUP ]]; then
-    addgroup --gid=$VOL_GID --quiet "$3"
+    groupadd --gid=$VOL_GID "$3"
     echo "Created group '$3' with GID $VOL_GID"
     GROUP_NAME="$3"
 else
@@ -22,5 +22,6 @@ else
     GROUP_NAME=$EXISTING_GROUP
 fi
 
-adduser --uid=$VOL_UID --gid=$VOL_GID --quiet --disabled-password --gecos "" "$2"
+# Create the user with a home directory as npm fails if it can't create ~/.npm
+useradd -m --uid=$VOL_UID --gid=$VOL_GID "$2"
 echo "Created user '$2' ($VOL_UID) in group '$GROUP_NAME' ($VOL_GID)"
