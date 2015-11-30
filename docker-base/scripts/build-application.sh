@@ -1,5 +1,4 @@
 #!/bin/bash -e
-set -x
 
 # Set up Python environment
 export WHEELHOUSE=/build/wheelhouse
