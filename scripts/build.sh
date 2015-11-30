@@ -19,6 +19,7 @@ fi
 (cd mama-ng-scheduler; git checkout develop; git pull)
 
 # Prepare folders
+REPO_DIR="$(pwd)/$REPO"
 mkdir -p $REPO_DIR/docker/build
 TARGET_DIR="$BUILDDIR/mama-ng-dockerbuild"
 mkdir $TARGET_DIR
