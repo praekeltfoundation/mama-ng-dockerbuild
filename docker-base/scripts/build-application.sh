@@ -37,3 +37,11 @@ pip install --no-index hellomama-registration
 ./manage.py collectstatic --noinput
 rm -rf /build/hellomama-registration-static
 cp -r static /build/hellomama-registration-static
+
+# Build seed-identity-store
+cd /seed-identity-store
+pip wheel --no-cache-dir .
+pip install --no-index seed-identity-store
+./manage.py collectstatic --noinput
+rm -rf /build/seed-identity-store-static
+cp -r static /build/seed-identity-store-static

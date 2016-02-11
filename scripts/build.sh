@@ -24,6 +24,12 @@ if [ ! -d "hellomama-registration" ]; then
 fi
 (cd hellomama-registration; git checkout develop; git pull)
 
+# Make sure we have an up to date clone of the seed-identity-store repo.
+if [ ! -d "seed-identity-store" ]; then
+    git clone https://github.com/praekelt/seed-identity-store.git seed-identity-store
+fi
+(cd seed-identity-store; git checkout develop; git pull)
+
 # Prepare folders
 REPO_DIR="$(pwd)/$REPO"
 mkdir -p $REPO_DIR/docker/build
@@ -37,6 +43,7 @@ $REPO_DIR/build-images.sh --all \
     --contentstore-dir "$(pwd)/mama-ng-contentstore" \
     --scheduler-dir "$(pwd)/mama-ng-scheduler" \
     --registration-dir "$(pwd)/hellomama-registration" \
+    --identity-store-dir "$(pwd)/seed-identity-store" \
     --tags-file "$TARGET_DIR/images.txt" \
     --tag-prefix "qa-mesos-persistence.za.prk-host.net:5000/"
 
