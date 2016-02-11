@@ -37,6 +37,9 @@ while [[ $# > 0 ]]; do
         --no-scheduler)
             BUILD_SCHEDULER="NO"
             ;;
+        --no-registration)
+            BUILD_REGISTRATION="NO"
+            ;;
         --no-latest)
             TAG_LATEST="NO"
             ;;
@@ -57,6 +60,9 @@ while [[ $# > 0 ]]; do
             ;;
         --scheduler-dir)
             SCHEDULER_DIR="$1"; shift
+            ;;
+        --registration-dir)
+            REGISTRATION_DIR="$1"; shift
             ;;
         --tags-file)
             TAGS_FILE="$1"; shift
@@ -80,6 +86,7 @@ BUILD_REQUIREMENTS_DIR="${BUILD_REQUIREMENTS_DIR-$BASE_DIR}"
 CONTROL_DIR="${CONTROL_DIR-$BASE_DIR/mama-ng-control}"
 CONTENTSTORE_DIR="${CONTENTSTORE_DIR-$BASE_DIR/mama-ng-contentstore}"
 SCHEDULER_DIR="${SCHEDULER_DIR-$BASE_DIR/mama-ng-scheduler}"
+REGISTRATION_DIR="${REGISTRATION_DIR-$BASE_DIR/hellomama-registration}"
 
 function writetag() {
     local tag="$1"; shift
@@ -123,6 +130,7 @@ function buildapp() {
     runimage "$@" \
              -v "$CONTROL_DIR":/mama-ng-control \
              -v "$CONTENTSTORE_DIR":/mama-ng-contentstore \
+             -v "$REGISTRATION_DIR":/hellomama-registration \
              -v "$BASE_DIR"/docker/build:/build
 }
 
@@ -168,5 +176,11 @@ if [ "$BUILD_SCHEDULER" = "YES" ]; then
     echo "Building scheduler image..."
     mkimage mama-ng-scheduler $SCHEDULER_DIR Dockerfile
 fi
+
+if [ "$BUILD_REGISTRATION" = "YES" ]; then
+    echo "Building registration image..."
+    mkimage hellomama-registration
+fi
+
 
 echo "Done."

@@ -29,3 +29,11 @@ pip install --no-index mama-ng-contentstore
 ./manage.py collectstatic --noinput
 rm -rf /build/mama-ng-contentstore-static
 cp -r static /build/mama-ng-contentstore-static
+
+# Build hellomama-registration
+cd /hellomama-registration
+pip wheel --no-cache-dir .
+pip install --no-index hellomama-registration
+./manage.py collectstatic --noinput
+rm -rf /build/hellomama-registration-static
+cp -r static /build/hellomama-registration-static
