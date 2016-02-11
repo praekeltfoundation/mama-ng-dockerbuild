@@ -179,7 +179,7 @@ fi
 
 if [ "$BUILD_REGISTRATION" = "YES" ]; then
     echo "Building registration image..."
-    mkimage hellomama-registration $REGISTRATION_DIR Dockerfile
+    mkimage hellomama-registration
 fi
 
 
