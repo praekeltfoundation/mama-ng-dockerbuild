@@ -30,6 +30,12 @@ if [ ! -d "seed-identity-store" ]; then
 fi
 (cd seed-identity-store; git checkout develop; git pull)
 
+# Make sure we have an up to date clone of the seed-stage-based-store repo.
+if [ ! -d "seed-stage-based-store" ]; then
+    git clone https://github.com/praekelt/seed-stage-based-store.git seed-stage-based-store
+fi
+(cd seed-stage-based-store; git checkout develop; git pull)
+
 # Prepare folders
 REPO_DIR="$(pwd)/$REPO"
 mkdir -p $REPO_DIR/docker/build
@@ -44,6 +50,7 @@ $REPO_DIR/build-images.sh --all \
     --scheduler-dir "$(pwd)/mama-ng-scheduler" \
     --registration-dir "$(pwd)/hellomama-registration" \
     --identity-store-dir "$(pwd)/seed-identity-store" \
+    --stage-based-store-dir "$(pwd)/seed-stage-based-store" \
     --tags-file "$TARGET_DIR/images.txt" \
     --tag-prefix "qa-mesos-persistence.za.prk-host.net:5000/"
 
