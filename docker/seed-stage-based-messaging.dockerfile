@@ -5,6 +5,6 @@ RUN apt-get update \
     && $APT_GET_INSTALL libpq5 \
     && rm -rf /var/lib/apt/lists/*
 
-ADD build/seed-stage-based-store-static /app/static
+ADD build/seed-stage-based-messaging-static /app/static
 
-RUN $PIP_INSTALL seed-stage-based-store
+RUN $PIP_INSTALL seed-stage-based-messaging
