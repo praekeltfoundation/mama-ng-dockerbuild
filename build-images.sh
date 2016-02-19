@@ -102,7 +102,7 @@ CONTENTSTORE_DIR="${CONTENTSTORE_DIR-$BASE_DIR/mama-ng-contentstore}"
 SCHEDULER_DIR="${SCHEDULER_DIR-$BASE_DIR/mama-ng-scheduler}"
 REGISTRATION_DIR="${REGISTRATION_DIR-$BASE_DIR/hellomama-registration}"
 IDENTITY_STORE_DIR="${IDENTITY_STORE_DIR-$BASE_DIR/seed-identity-store}"
-STAGE_BASED_MESSAGING_DIR="${STAGE_BASED_STORE_DIR-$BASE_DIR/seed-stage-based-messaging}"
+STAGE_BASED_MESSAGING_DIR="${STAGE_BASED_MESSAGING_DIR-$BASE_DIR/seed-stage-based-messaging}"
 
 function writetag() {
     local tag="$1"; shift
