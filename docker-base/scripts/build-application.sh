@@ -45,3 +45,11 @@ pip install --no-index seed-identity-store
 ./manage.py collectstatic --noinput
 rm -rf /build/seed-identity-store-static
 cp -r static /build/seed-identity-store-static
+
+# Build seed-stage-based-messaging
+cd /seed-stage-based-messaging
+pip wheel --no-cache-dir .
+pip install --no-index seed-stage-based-messaging
+./manage.py collectstatic --noinput
+rm -rf /build/seed-stage-based-messaging-static
+cp -r static /build/seed-stage-based-messaging-static
