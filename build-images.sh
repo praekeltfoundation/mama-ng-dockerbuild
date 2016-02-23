@@ -175,11 +175,7 @@ mkimage mama-ng-run
 
 if [ "$BUILD_INFR" = "YES" ]; then
     echo "Building infr images..."
-    mkimage go-metrics-api
     mkimage jssandbox
-    mkimage vumi-http-api
-    mkimage vumi
-    mkimage vxfreeswitch
 fi
 
 if [ "$BUILD_CONTROL" = "YES" ]; then
