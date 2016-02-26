@@ -54,9 +54,6 @@ while [[ $# > 0 ]]; do
         --base-dir)
             BASE_DIR="$1"; shift
             ;;
-        --build-requirements-dir)
-            BUILD_REQUIREMENTS_DIR="$1"; shift
-            ;;
         --control-dir)
             CONTROL_DIR="$1"; shift
             ;;
@@ -92,8 +89,7 @@ while [[ $# > 0 ]]; do
     esac
 done
 
-# Set BUILD_REQUIREMENTS_DIR and app directories to default if not provided
-BUILD_REQUIREMENTS_DIR="${BUILD_REQUIREMENTS_DIR-$BASE_DIR}"
+# Set app directories to default if not provided
 CONTROL_DIR="${CONTROL_DIR-$BASE_DIR/mama-ng-control}"
 CONTENTSTORE_DIR="${CONTENTSTORE_DIR-$BASE_DIR/mama-ng-contentstore}"
 SCHEDULER_DIR="${SCHEDULER_DIR-$BASE_DIR/mama-ng-scheduler}"
@@ -138,8 +134,6 @@ function runimage() {
 
 function buildapp() {
     local REQ_DIR="$BASE_DIR/docker/build/"
-    cp "$BUILD_REQUIREMENTS_DIR"/requirements.txt "$REQ_DIR"
-    cp "$BUILD_REQUIREMENTS_DIR"/package.json "$REQ_DIR"
     runimage "$@" \
              -v "$CONTROL_DIR":/mama-ng-control \
              -v "$CONTENTSTORE_DIR":/mama-ng-contentstore \
