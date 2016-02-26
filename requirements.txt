@@ -1,2 +1,0 @@
-vumi>=0.5.19
-vxsandbox>=0.5.4
