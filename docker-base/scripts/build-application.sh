@@ -7,11 +7,6 @@ export PIP_FIND_LINKS=$WHEELHOUSE
 mkdir -p $WHEELHOUSE
 . /appenv/bin/activate
 
-# Build node_modules
-cd /build
-rm -rf /build/node_modules
-npm install --production
-
 # Build mama-ng-control
 cd /mama-ng-control
 pip wheel --no-cache-dir .
