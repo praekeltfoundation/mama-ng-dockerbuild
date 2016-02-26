@@ -6,7 +6,6 @@ RUN apt-get update \
         libffi-dev \
         libpq-dev \
         libssl-dev \
-        npm \
         python-dev \
     && rm -rf /var/lib/apt/lists/*
 
