@@ -1,5 +1,0 @@
-go-metrics-api>=0.1.8
-vumi-http-api>=0.1.3
-vumi>=0.5.19
-vxfreeswitch>=0.1.9
-vxsandbox>=0.5.4

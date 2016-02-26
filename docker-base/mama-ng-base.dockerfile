@@ -5,8 +5,7 @@ ENV APT_GET_INSTALL "apt-get install -qyy -o APT::Install-Recommends=false -o AP
 RUN apt-get update \
     && $APT_GET_INSTALL \
         ca-certificates \
-        libffi6 \
-        openssl \
+        libpq5 \
     && rm -rf /var/lib/apt/lists/*
 
 RUN set -x \

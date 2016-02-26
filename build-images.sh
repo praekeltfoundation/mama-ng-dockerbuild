@@ -3,10 +3,8 @@
 BUILD_BASE="NO"
 BUILD_BUILDER="NO"
 BUILD_WHEELS="YES"
-BUILD_INFR="YES"
 BUILD_CONTROL="YES"
 BUILD_CONTENTSTORE="YES"
-BUILD_SCHEDULER="YES"
 BUILD_REGISTRATION="YES"
 BUILD_IDENTITY_STORE="YES"
 BUILD_STAGE_BASED_MESSAGING="YES"
@@ -28,17 +26,11 @@ while [[ $# > 0 ]]; do
         --no-wheels)
             BUILD_WHEELS="NO"
             ;;
-        --no-infr)
-            BUILD_INFR="NO"
-            ;;
         --no-control)
             BUILD_CONTROL="NO"
             ;;
         --no-contentstore)
             BUILD_CONTENTSTORE="NO"
-            ;;
-        --no-scheduler)
-            BUILD_SCHEDULER="NO"
             ;;
         --no-registration)
             BUILD_REGISTRATION="NO"
@@ -58,17 +50,11 @@ while [[ $# > 0 ]]; do
         --base-dir)
             BASE_DIR="$1"; shift
             ;;
-        --build-requirements-dir)
-            BUILD_REQUIREMENTS_DIR="$1"; shift
-            ;;
         --control-dir)
             CONTROL_DIR="$1"; shift
             ;;
         --contentstore-dir)
             CONTENTSTORE_DIR="$1"; shift
-            ;;
-        --scheduler-dir)
-            SCHEDULER_DIR="$1"; shift
             ;;
         --registration-dir)
             REGISTRATION_DIR="$1"; shift
@@ -96,11 +82,9 @@ while [[ $# > 0 ]]; do
     esac
 done
 
-# Set BUILD_REQUIREMENTS_DIR and app directories to default if not provided
-BUILD_REQUIREMENTS_DIR="${BUILD_REQUIREMENTS_DIR-$BASE_DIR}"
+# Set app directories to default if not provided
 CONTROL_DIR="${CONTROL_DIR-$BASE_DIR/mama-ng-control}"
 CONTENTSTORE_DIR="${CONTENTSTORE_DIR-$BASE_DIR/mama-ng-contentstore}"
-SCHEDULER_DIR="${SCHEDULER_DIR-$BASE_DIR/mama-ng-scheduler}"
 REGISTRATION_DIR="${REGISTRATION_DIR-$BASE_DIR/hellomama-registration}"
 IDENTITY_STORE_DIR="${IDENTITY_STORE_DIR-$BASE_DIR/seed-identity-store}"
 STAGE_BASED_MESSAGING_DIR="${STAGE_BASED_MESSAGING_DIR-$BASE_DIR/seed-stage-based-messaging}"
@@ -142,8 +126,6 @@ function runimage() {
 
 function buildapp() {
     local REQ_DIR="$BASE_DIR/docker/build/"
-    cp "$BUILD_REQUIREMENTS_DIR"/requirements.txt "$REQ_DIR"
-    cp "$BUILD_REQUIREMENTS_DIR"/package.json "$REQ_DIR"
     runimage "$@" \
              -v "$CONTROL_DIR":/mama-ng-control \
              -v "$CONTENTSTORE_DIR":/mama-ng-contentstore \
@@ -173,15 +155,6 @@ fi
 echo "Building run image..."
 mkimage mama-ng-run
 
-if [ "$BUILD_INFR" = "YES" ]; then
-    echo "Building infr images..."
-    mkimage go-metrics-api
-    mkimage jssandbox
-    mkimage vumi-http-api
-    mkimage vumi
-    mkimage vxfreeswitch
-fi
-
 if [ "$BUILD_CONTROL" = "YES" ]; then
     echo "Building mama-ng-control image..."
     mkimage mama-ng-control
@@ -189,11 +162,6 @@ fi
 if [ "$BUILD_CONTENTSTORE" = "YES" ]; then
     echo "Building mama-ng-contentstore image..."
     mkimage mama-ng-contentstore
-fi
-
-if [ "$BUILD_SCHEDULER" = "YES" ]; then
-    echo "Building scheduler image..."
-    mkimage mama-ng-scheduler $SCHEDULER_DIR Dockerfile
 fi
 
 if [ "$BUILD_REGISTRATION" = "YES" ]; then
