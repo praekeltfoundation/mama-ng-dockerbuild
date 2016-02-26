@@ -2,6 +2,7 @@ FROM mama-ng-base
 
 RUN apt-get update \
     && $APT_GET_INSTALL \
+        gcc \
         libpq-dev \
         python-dev \
     && rm -rf /var/lib/apt/lists/*
