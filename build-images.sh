@@ -3,7 +3,6 @@
 BUILD_BASE="NO"
 BUILD_BUILDER="NO"
 BUILD_WHEELS="YES"
-BUILD_INFR="YES"
 BUILD_CONTROL="YES"
 BUILD_CONTENTSTORE="YES"
 BUILD_SCHEDULER="YES"
@@ -27,9 +26,6 @@ while [[ $# > 0 ]]; do
             ;;
         --no-wheels)
             BUILD_WHEELS="NO"
-            ;;
-        --no-infr)
-            BUILD_INFR="NO"
             ;;
         --no-control)
             BUILD_CONTROL="NO"
