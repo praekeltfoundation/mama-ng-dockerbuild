@@ -173,11 +173,6 @@ fi
 echo "Building run image..."
 mkimage mama-ng-run
 
-if [ "$BUILD_INFR" = "YES" ]; then
-    echo "Building infr images..."
-    mkimage jssandbox
-fi
-
 if [ "$BUILD_CONTROL" = "YES" ]; then
     echo "Building mama-ng-control image..."
     mkimage mama-ng-control
