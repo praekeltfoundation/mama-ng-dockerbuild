@@ -47,6 +47,17 @@ $REPO_DIR/build-images.sh --all \
     --tags-file "$TARGET_DIR/images.txt" \
     --tag-prefix "qa-mesos-persistence.za.prk-host.net:5000/"
 
+# Build the images
+$REPO_DIR/build-images.sh --all \
+    --base-dir "$REPO_DIR" \
+    --control-dir "$(pwd)/mama-ng-control" \
+    --contentstore-dir "$(pwd)/mama-ng-contentstore" \
+    --registration-dir "$(pwd)/hellomama-registration" \
+    --identity-store-dir "$(pwd)/seed-identity-store" \
+    --stage-based-messaging-dir "$(pwd)/seed-stage-based-messaging" \
+    --tags-file "$TARGET_DIR/images.txt" \
+    --tag-prefix "prd-mama-router.ng.prk-host.net:5000/"
+
 # Push the images
 for image in $(cat $TARGET_DIR/images.txt); do
     docker push $image
