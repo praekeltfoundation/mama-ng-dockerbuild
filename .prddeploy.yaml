@@ -1,6 +1,6 @@
 name: mama-ng-dockerbuild
 buildtype: docker
-buildscript: scripts/qa-build.sh
+buildscript: scripts/prod-build.sh
 postinstall: scripts/postinstall.sh
 dependencies:
   - docker-engine

@@ -45,7 +45,7 @@ $REPO_DIR/build-images.sh --all \
     --identity-store-dir "$(pwd)/seed-identity-store" \
     --stage-based-messaging-dir "$(pwd)/seed-stage-based-messaging" \
     --tags-file "$TARGET_DIR/images.txt" \
-    --tag-prefix "qa-mesos-persistence.za.prk-host.net:5000/"
+    --tag-prefix "$REGISTRY"
 
 # Push the images
 for image in $(cat $TARGET_DIR/images.txt); do
