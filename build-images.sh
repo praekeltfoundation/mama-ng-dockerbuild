@@ -3,7 +3,6 @@
 BUILD_BASE="NO"
 BUILD_BUILDER="NO"
 BUILD_WHEELS="YES"
-BUILD_REGISTRATION="YES"
 TAG_LATEST="YES"
 TAG_PREFIX=""
 EXTRA_RUNARGS=""
@@ -22,9 +21,6 @@ while [[ $# > 0 ]]; do
         --no-wheels)
             BUILD_WHEELS="NO"
             ;;
-        --no-registration)
-            BUILD_REGISTRATION="NO"
-            ;;
         --no-latest)
             TAG_LATEST="NO"
             ;;
@@ -33,9 +29,6 @@ while [[ $# > 0 ]]; do
             ;;
         --base-dir)
             BASE_DIR="$1"; shift
-            ;;
-        --registration-dir)
-            REGISTRATION_DIR="$1"; shift
             ;;
         --tags-file)
             TAGS_FILE="$1"; shift
@@ -53,9 +46,6 @@ while [[ $# > 0 ]]; do
             ;;
     esac
 done
-
-# Set app directories to default if not provided
-REGISTRATION_DIR="${REGISTRATION_DIR-$BASE_DIR/hellomama-registration}"
 
 function writetag() {
     local tag="$1"; shift
@@ -95,7 +85,6 @@ function runimage() {
 function buildapp() {
     local REQ_DIR="$BASE_DIR/docker/build/"
     runimage "$@" \
-             -v "$REGISTRATION_DIR":/hellomama-registration \
              -v "$BASE_DIR"/docker/build:/build
 }
 
@@ -118,10 +107,5 @@ fi
 # Build run images
 echo "Building run image..."
 mkimage mama-ng-run
-
-if [ "$BUILD_REGISTRATION" = "YES" ]; then
-    echo "Building registration image..."
-    mkimage hellomama-registration
-fi
 
 echo "Done."
