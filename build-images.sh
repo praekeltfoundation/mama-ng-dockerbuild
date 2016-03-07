@@ -3,11 +3,6 @@
 BUILD_BASE="NO"
 BUILD_BUILDER="NO"
 BUILD_WHEELS="YES"
-BUILD_CONTROL="YES"
-BUILD_CONTENTSTORE="YES"
-BUILD_REGISTRATION="YES"
-BUILD_IDENTITY_STORE="YES"
-BUILD_STAGE_BASED_MESSAGING="YES"
 TAG_LATEST="YES"
 TAG_PREFIX=""
 EXTRA_RUNARGS=""
@@ -26,21 +21,6 @@ while [[ $# > 0 ]]; do
         --no-wheels)
             BUILD_WHEELS="NO"
             ;;
-        --no-control)
-            BUILD_CONTROL="NO"
-            ;;
-        --no-contentstore)
-            BUILD_CONTENTSTORE="NO"
-            ;;
-        --no-registration)
-            BUILD_REGISTRATION="NO"
-            ;;
-        --no-identity-store)
-            BUILD_IDENTITY_STORE="NO"
-            ;;
-        --no-stage-based-messaging)
-            BUILD_STAGE_BASED_MESSAGING="NO"
-            ;;
         --no-latest)
             TAG_LATEST="NO"
             ;;
@@ -49,21 +29,6 @@ while [[ $# > 0 ]]; do
             ;;
         --base-dir)
             BASE_DIR="$1"; shift
-            ;;
-        --control-dir)
-            CONTROL_DIR="$1"; shift
-            ;;
-        --contentstore-dir)
-            CONTENTSTORE_DIR="$1"; shift
-            ;;
-        --registration-dir)
-            REGISTRATION_DIR="$1"; shift
-            ;;
-        --identity-store-dir)
-            IDENTITY_STORE_DIR="$1"; shift
-            ;;
-        --stage-based-messaging-dir)
-            STAGE_BASED_MESSAGING_DIR="$1"; shift
             ;;
         --tags-file)
             TAGS_FILE="$1"; shift
@@ -81,13 +46,6 @@ while [[ $# > 0 ]]; do
             ;;
     esac
 done
-
-# Set app directories to default if not provided
-CONTROL_DIR="${CONTROL_DIR-$BASE_DIR/mama-ng-control}"
-CONTENTSTORE_DIR="${CONTENTSTORE_DIR-$BASE_DIR/mama-ng-contentstore}"
-REGISTRATION_DIR="${REGISTRATION_DIR-$BASE_DIR/hellomama-registration}"
-IDENTITY_STORE_DIR="${IDENTITY_STORE_DIR-$BASE_DIR/seed-identity-store}"
-STAGE_BASED_MESSAGING_DIR="${STAGE_BASED_MESSAGING_DIR-$BASE_DIR/seed-stage-based-messaging}"
 
 function writetag() {
     local tag="$1"; shift
@@ -127,11 +85,6 @@ function runimage() {
 function buildapp() {
     local REQ_DIR="$BASE_DIR/docker/build/"
     runimage "$@" \
-             -v "$CONTROL_DIR":/mama-ng-control \
-             -v "$CONTENTSTORE_DIR":/mama-ng-contentstore \
-             -v "$REGISTRATION_DIR":/hellomama-registration \
-             -v "$IDENTITY_STORE_DIR":/seed-identity-store \
-             -v "$STAGE_BASED_MESSAGING_DIR":/seed-stage-based-messaging \
              -v "$BASE_DIR"/docker/build:/build
 }
 
@@ -154,30 +107,5 @@ fi
 # Build run images
 echo "Building run image..."
 mkimage mama-ng-run
-
-if [ "$BUILD_CONTROL" = "YES" ]; then
-    echo "Building mama-ng-control image..."
-    mkimage mama-ng-control
-fi
-if [ "$BUILD_CONTENTSTORE" = "YES" ]; then
-    echo "Building mama-ng-contentstore image..."
-    mkimage mama-ng-contentstore
-fi
-
-if [ "$BUILD_REGISTRATION" = "YES" ]; then
-    echo "Building registration image..."
-    mkimage hellomama-registration
-fi
-
-if [ "$BUILD_IDENTITY_STORE" = "YES" ]; then
-    echo "Building identity store image..."
-    mkimage seed-identity-store
-fi
-
-if [ "$BUILD_STAGE_BASED_MESSAGING" = "YES" ]; then
-    echo "Building stage-based messaging image..."
-    mkimage seed-stage-based-messaging
-fi
-
 
 echo "Done."
