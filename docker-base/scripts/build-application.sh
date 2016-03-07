@@ -7,21 +7,6 @@ export PIP_FIND_LINKS=$WHEELHOUSE
 mkdir -p $WHEELHOUSE
 . /appenv/bin/activate
 
-# Build mama-ng-control
-cd /mama-ng-control
-pip wheel --no-cache-dir .
-# No collectstatic to do but some static files to include
-rm -rf /build/mama-ng-control-static
-cp -r static /build/mama-ng-control-static
-
-# Build mama-ng-contentstore
-cd /mama-ng-contentstore
-pip wheel --no-cache-dir .
-pip install --no-index mama-ng-contentstore
-./manage.py collectstatic --noinput
-rm -rf /build/mama-ng-contentstore-static
-cp -r static /build/mama-ng-contentstore-static
-
 # Build hellomama-registration
 cd /hellomama-registration
 pip wheel --no-cache-dir .
@@ -29,19 +14,3 @@ pip install --no-index hellomama-registration
 ./manage.py collectstatic --noinput
 rm -rf /build/hellomama-registration-static
 cp -r static /build/hellomama-registration-static
-
-# Build seed-identity-store
-cd /seed-identity-store
-pip wheel --no-cache-dir .
-pip install --no-index seed-identity-store
-./manage.py collectstatic --noinput
-rm -rf /build/seed-identity-store-static
-cp -r static /build/seed-identity-store-static
-
-# Build seed-stage-based-messaging
-cd /seed-stage-based-messaging
-pip wheel --no-cache-dir .
-pip install --no-index seed-stage-based-messaging
-./manage.py collectstatic --noinput
-rm -rf /build/seed-stage-based-messaging-static
-cp -r static /build/seed-stage-based-messaging-static
