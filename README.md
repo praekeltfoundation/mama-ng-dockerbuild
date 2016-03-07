@@ -1,6 +1,9 @@
 # mama-ng-dockerbuild
 Scripts to build Docker images for the components of MAMA Nigeria
 
+## Deprecation notice
+**This repository is deprecated. Docker images are now built either in the repos of the individual projects or in `[praekelt/mama-ng-dockerconfig](https://github.com/praekelt/mama-ng-dockerconfig)`**
+
 ## Build process
 ```
                                     +----------------------------------------+   +-------------------------------+
@@ -39,4 +42,3 @@ Scripts to build Docker images for the components of MAMA Nigeria
                                                                                       |                    |
                                                                                       +--------------------+
 ```
-
